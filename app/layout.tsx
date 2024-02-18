@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./global.css";
+
+import Navigation from "@/components/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +17,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ko">
+      <body className="bg-[#F2EFE5]">
+        <Navigation />
+        {children}
+      </body>
     </html>
   );
 }
+
+// 컴포넌트를 재사용하는 경우 레이아웃 파일을 사용
+/* 
+넥스트js는 제일 먼저 레이아웃 파일을 읽음-> 그 다음 url 확인해서 그 페이지의 export default 코드를 읽어 실행
+
+'/signin' 페이지로 가는 경우
+
+<RootLayout>
+  <SignIn />   <- {children}
+</RootLayout>
+
+실제로는 이렇게 렌더링이 됨
+*/
