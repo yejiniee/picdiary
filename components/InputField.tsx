@@ -1,6 +1,7 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
 
 interface Props {
+  type: string;
   registerName: string;
   register: UseFormRegister<FieldValues>;
   placeholder: string;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function InputField({
+  type,
   registerName,
   register,
   placeholder,
@@ -24,7 +26,7 @@ export default function InputField({
       </label>
       <input
         id={registerName}
-        type={registerName}
+        type={type}
         placeholder={placeholder}
         {...register(registerName, validator)}
       ></input>

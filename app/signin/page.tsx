@@ -11,7 +11,7 @@ import {
 } from "@/utils/registerOptions";
 import Image from "next/image";
 import Link from "next/link";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 export interface LoginData {
@@ -25,9 +25,9 @@ export default function SignIn() {
     formState: { errors },
     setError,
   } = useForm({ mode: "onBlur" });
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data: LoginData) => {
-    // console.log(JSON.stringify(data));
     const response = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
@@ -39,8 +39,8 @@ export default function SignIn() {
     if (response.ok) {
       const responseData = await response.json();
 
-      localStorage.setItem("accessToken", responseData.data.accessToken);
-      router.push("/folder");
+      // localStorage.setItem("accessToken", responseData.data.accessToken);
+      router.push("/signup");
     } else {
       setError(EMAIL, {
         type: "wrong-email",
@@ -59,6 +59,7 @@ export default function SignIn() {
         <Image src="/svgs/PICDIARY.svg" alt="" width={200} height={200} />
         <InputForm onSubmit={handleSubmit(onSubmit)}>
           <InputField
+            type={EMAIL}
             registerName={EMAIL}
             register={register}
             placeholder={"이메일을 입력하세요."}
@@ -67,6 +68,7 @@ export default function SignIn() {
             errorMessage={errors.email?.message?.toString() || ""}
           ></InputField>
           <InputField
+            type={PASSWORD}
             registerName={PASSWORD}
             register={register}
             placeholder={"비밀번호를 입력하세요."}
