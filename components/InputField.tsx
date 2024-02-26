@@ -1,35 +1,34 @@
+import { FieldValues, UseFormRegister } from "react-hook-form";
+
 interface Props {
-  id: string;
-  name: string;
-  type: string;
+  registerName: string;
+  register: UseFormRegister<FieldValues>;
   placeholder: string;
-  value: any;
   labelName: string;
-  htmlFor: string;
+  validator: any;
+  errorMessage: string;
 }
 
 export default function InputField({
-  id,
-  name,
-  type,
+  registerName,
+  register,
   placeholder,
-  value,
   labelName,
-  htmlFor,
+  validator,
+  errorMessage,
 }: Props) {
   return (
     <>
-      <label className="" htmlFor={htmlFor}>
+      <label className="" htmlFor={registerName}>
         {labelName}
       </label>
       <input
-        id={id}
-        name={name}
-        type={type}
+        id={registerName}
+        type={registerName}
         placeholder={placeholder}
-        value={value}
-        required
+        {...register(registerName, validator)}
       ></input>
+      {errorMessage && <span id="err-msg">{errorMessage}</span>}
     </>
   );
 }
