@@ -55,7 +55,7 @@ export default function SignIn() {
 
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center gap-3">
         <Image src="/svgs/PICDIARY.svg" alt="" width={200} height={200} />
         <InputForm onSubmit={handleSubmit(onSubmit)}>
           <InputField
@@ -78,7 +78,9 @@ export default function SignIn() {
           ></InputField>
           <Button>로그인</Button>
         </InputForm>
-        <Link href="signup">회원가입하러 가기</Link>
+        <Link className="underline" href="signup">
+          회원가입하러 가기
+        </Link>
       </div>
     </>
   );
