@@ -9,11 +9,14 @@ export default function Navigation() {
   return (
     <nav>
       <ul>
-        <li>
+        <li className="underline ">
           <Link href="/">Home</Link>
         </li>
-        <li>
+        <li className="underline ">
           <Link href="/signin">LogIn</Link>
+        </li>
+        <li className="underline ">
+          <Link href="/diary">Diary</Link>
         </li>
       </ul>
     </nav>

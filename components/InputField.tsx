@@ -31,7 +31,11 @@ export default function InputField({
         placeholder={placeholder}
         {...register(registerName, validator)}
       ></input>
-      {errorMessage && <span id="err-msg">{errorMessage}</span>}
+      {errorMessage && (
+        <span className="text-red-700" id="err-msg">
+          {errorMessage}
+        </span>
+      )}
     </div>
   );
 }

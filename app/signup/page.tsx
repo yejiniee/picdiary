@@ -70,7 +70,7 @@ export default function SignUp() {
   return (
     <>
       <div className="flex flex-col items-center gap-3">
-        <Image src="/svgs/PICDIARY.svg" alt="" width={200} height={200} />
+        <Image src="/svgs/PICDIARY.svg" alt="logo" width={200} height={200} />
 
         <InputForm onSubmit={handleSubmit(onSubmit)}>
           <InputField
