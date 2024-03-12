@@ -1,9 +1,14 @@
-import moment from "moment";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Calendar from "react-calendar";
+import moment from "moment";
 import "react-calendar/dist/Calendar.css";
 import "@/app/styles/Calendar.css";
-import Image from "next/image";
+
+import useHoliday from "@/hooks/useHoliday";
+import { extractYearAndMonth } from "@/utils/extractYearAndMonth";
+
+const SERVICE_KEY = String(process.env.NEXT_PUBLIC_API_KEY);
 
 export default function DiaryCalendar() {
   const [isClient, setIsClient] = useState(false);
@@ -18,6 +23,7 @@ export default function DiaryCalendar() {
 
   const monthOfActiveDate = moment(today).format("YYYY-MM"); //현재 보여지는 달을 나타내는 State 생성(activeMonth)
   const [activeMonth, setActiveMonth] = useState(monthOfActiveDate);
+  console.log("activeMonth, ", activeMonth);
 
   const getActiveMonth = (activeStartDate: moment.MomentInput) => {
     const newActiveMonth = moment(activeStartDate).format("YYYY-MM");
@@ -29,7 +35,7 @@ export default function DiaryCalendar() {
     setToday(today);
   };
 
-  // 일기 작성 날짜 리스트
+  // 일기 작성 날짜 리스트-임시
   const dayList = [
     "2024-03-10",
     "2024-03-21",
@@ -38,14 +44,43 @@ export default function DiaryCalendar() {
     "2023-04-27",
   ];
 
+  const { year, month } = extractYearAndMonth(activeMonth);
+  const { holidays } = useHoliday(year, month, SERVICE_KEY);
+
+  const tileClassName = ({ date }: { date: Date }): string | null => {
+    // 일요일인지 확인
+    if (date.getDay() === 0) {
+      return "holiday"; // 일요일일 경우 'sunday' 클래스 추가
+    }
+
+    // holidays 배열에 포함된 날짜인 경우 'holiday' 클래스를 반환
+    // date 객체에서 연도, 월, 일 정보를 추출
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더함
+    const day = date.getDate();
+
+    // holidays 배열에 포함된 날짜 중에서 현재 날짜와 일치하는 것이 있는지 확인
+    const isHoliday = holidays.some((holiday) => {
+      const [holidayYear, holidayMonth, holidayDay] = holiday
+        .split("-")
+        .map(Number);
+      return (
+        year === holidayYear && month === holidayMonth && day === holidayDay
+      );
+    });
+
+    // 현재 날짜가 휴일이라면 'holiday' 클래스를 반환하고, 아니면 null을 반환합니다.
+    return isHoliday ? "holiday" : null;
+  };
+
   return (
     <>
       {isClient && (
         <Calendar
           onChange={onChangeToday}
           value={today}
-          // next2Label={null}
-          // prev2Label={null}
+          next2Label={null}
+          prev2Label={null}
           formatDay={(locale, date) => moment(date).format("D")}
           tileContent={({ date, view }) => {
             if (dayList.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
@@ -64,6 +99,7 @@ export default function DiaryCalendar() {
               );
             }
           }}
+          tileClassName={tileClassName}
           showNeighboringMonth={false}
           onActiveStartDateChange={({ activeStartDate }) =>
             getActiveMonth(activeStartDate)

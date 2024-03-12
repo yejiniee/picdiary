@@ -11,6 +11,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "typeRoots": ["./@types", "./mode_modules/@/types"],
     "incremental": true,
     "plugins": [
       {
