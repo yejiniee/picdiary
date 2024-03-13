@@ -76,7 +76,7 @@ export default function SignIn() {
             validator={signInPasswordValidator}
             errorMessage={errors.password?.message?.toString() || ""}
           ></InputField>
-          <Button>로그인</Button>
+          <Button type="submit">로그인</Button>
         </InputForm>
         <Link className="underline" href="signup">
           회원가입하러 가기

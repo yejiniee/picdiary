@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Calendar from "react-calendar";
 import moment from "moment";
@@ -19,7 +20,8 @@ export default function DiaryCalendar() {
 
   const [today, setToday] = useState(new Date());
   // moment 사용해 Date 형태의 날짜를 YYYY-MM-DD의 String으로 변환
-  const activeDate = moment(today).format("YYYY-MM-DD"); // 클릭한 날짜 (년-월-일))
+  const [activeDate, setActiveDate] = useState<string>();
+  // const activeDate = moment(today).format("YYYY-MM-DD"); // 클릭한 날짜 (년-월-일))
 
   const monthOfActiveDate = moment(today).format("YYYY-MM"); //현재 보여지는 달을 나타내는 State 생성(activeMonth)
   const [activeMonth, setActiveMonth] = useState(monthOfActiveDate);
@@ -34,7 +36,9 @@ export default function DiaryCalendar() {
   const onChangeToday = () => {
     setToday(today);
   };
-
+  // const onChangeToday = (value: Date) => {
+  //   setToday(value); // 오늘 날짜를 업데이트합니다.
+  // };
   // 일기 작성 날짜 리스트-임시
   const dayList = [
     "2024-03-10",
@@ -73,6 +77,20 @@ export default function DiaryCalendar() {
     return isHoliday ? "holiday" : null;
   };
 
+  const router = useRouter();
+  // 특정 날짜를 클릭할 때 실행되는 함수
+  const onDateClick = (value: Date) => {
+    console.log("이동한다!!!!!!!!!!!!!!!");
+    const clickedDate: string = moment(value).format("YYYY-MM-DD");
+    setActiveDate(clickedDate); // 클릭한 날짜를 activeDate 변수에 저장합니다.
+    const year = moment(value).format("YYYY");
+    const month = moment(value).format("MM");
+    const day = moment(value).format("DD");
+
+    // router.push(`/diary22`);
+    router.push(`/diary/${year}/${month}/${day}`); // 해당 날짜의 년도, 월, 일을 가지고 /diary 경로로 이동합니다.
+  };
+
   return (
     <>
       {isClient && (
@@ -104,6 +122,7 @@ export default function DiaryCalendar() {
           onActiveStartDateChange={({ activeStartDate }) =>
             getActiveMonth(activeStartDate)
           }
+          onClickDay={onDateClick}
         ></Calendar>
       )}
     </>

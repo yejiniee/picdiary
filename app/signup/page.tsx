@@ -100,7 +100,7 @@ export default function SignUp() {
             validator={signUpPasswordValidator}
             errorMessage={errors.repassword?.message?.toString() || ""}
           ></InputField>
-          <Button>가입하기</Button>
+          <Button type="submit">가입하기</Button>
         </InputForm>
         <Link className="underline" href="signin">
           이미 회원이신가요? 로그인하러 가기

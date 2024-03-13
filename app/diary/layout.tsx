@@ -3,5 +3,5 @@ export default function DiaryLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="py-36 px-6"> {children} </div>;
+  return <div className="py-36 px-8"> {children} </div>;
 }

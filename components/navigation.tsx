@@ -16,7 +16,7 @@ export default function Navigation() {
           <Link href="/signin">LogIn</Link>
         </li>
         <li className="underline ">
-          <Link href="/diary">Diary</Link>
+          <Link href="/calendar">Calendar</Link>
         </li>
       </ul>
     </nav>
